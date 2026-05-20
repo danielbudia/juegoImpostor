@@ -196,25 +196,35 @@ async function generateWord() {
   const used = G.usedWords[G.theme] || [];
   const listToAvoid = used.slice(-50).join(', ');
 
-  const promptInput = `TEMA: ${themeDesc}. 
-  LISTA NEGRA: [${listToAvoid}].
-  REGLAS: Palabra difícil en español y MAYÚSCULAS. Pista (hint) de una sola palabra relacionada.
-  RESPUESTA: JSON {"word": "...", "hint": "..."}`;
+  // 1. TU CLAVE (Si el repo es público, esta clave morirá al subirla a GitHub)
+  const API_KEY = 'oE1UFMr66HFM5mZcafuYAep3vJv4NpN1'; 
+  
+  // 2. EL PROXY (Esto es lo que evita el error de "bloqueo")
+  const PROXY = 'https://api.allorigins.win/raw?url=';
+  const URL = 'https://api.mistral.ai/v1/chat/completions';
+
+  const prompt = `Responde SOLO un objeto JSON: {"word": "PALABRA", "hint": "PISTA"}. 
+  Tema: ${themeDesc}. No uses: ${listToAvoid}. Palabra en español, mayúsculas. Pista: una sola palabra.`;
 
   try {
-    // LLAMAMOS A NUESTRA PROPIA API EN VERCEL
-    const response = await fetch('/api/generate', {
+    const response = await fetch(PROXY + encodeURIComponent(URL), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: promptInput })
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify({
+        model: "open-mistral-7b",
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.7
+      })
     });
 
-    if (!response.ok) throw new Error("Fallo en la comunicación con la API");
+    if (!response.ok) throw new Error("Fallo en Mistral");
 
     const data = await response.json();
-    
-    // Mistral devuelve la respuesta en choices[0].message.content
-    const content = JSON.parse(data.choices[0].message.content);
+    // Mistral a veces devuelve el JSON dentro de un string de texto
+    const content = JSON.parse(data.choices[0].message.content.trim());
 
     G.word = content.word.toUpperCase().trim();
     G.hint = content.hint.trim().split(/\s+/)[0].toLowerCase(); 
@@ -222,11 +232,10 @@ async function generateWord() {
     if (!G.usedWords[G.theme]) G.usedWords[G.theme] = [];
     G.usedWords[G.theme].push(G.word);
 
-    console.log("🎲 Palabra de Mistral recibida:", G.word);
     return true;
 
   } catch (e) {
-    console.warn("🔌 Error en IA, tirando de respaldo:", e.message);
+    console.warn("API falló o clave anulada, usando respaldo local.");
     return useFallback(); 
   }
 }
