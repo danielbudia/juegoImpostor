@@ -692,12 +692,27 @@ function startRound() {
   updateTimerDisplay();
   buildPlayersStrip();
   buildVoteGrid();
-  
-  // --- NUEVA LÓGICA: ELEGIR QUIÉN EMPIEZA ---
+
+  // --- LÓGICA DEL POP-UP JUGADOR INICIAL ---
   if (G.alive.length > 0) {
     const randomIndex = Math.floor(Math.random() * G.alive.length);
     const starterName = G.alive[randomIndex];
-    document.getElementById('starter-name').textContent = starterName.toUpperCase();
+    
+    const popup = document.getElementById('starter-popup');
+    const nameEl = document.getElementById('starter-name-popup');
+    
+    // Configurar y mostrar pop-up
+    nameEl.textContent = starterName.toUpperCase();
+    popup.style.display = 'flex';
+    popup.classList.remove('fade-out-starter');
+
+    // Programar desaparición a los 5 segundos
+    setTimeout(() => {
+      popup.classList.add('fade-out-starter');
+      setTimeout(() => {
+        popup.style.display = 'none';
+      }, 800); // Espera a que termine la animación de fadeOut
+    }, 5000);
   }
   // -----------------------------------------
 

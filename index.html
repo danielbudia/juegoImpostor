@@ -204,8 +204,7 @@
     </div>
     <div class="status-bar">
       <div class="status-dot"></div>
-       <div class="status-text">
-    Discusión activa · Empieza hablando: <span id="starter-name" style="color: var(--red2); font-weight: bold; text-shadow: 0 0 10px var(--red-glow);">---</span>
+      <div class="status-text">Discusión activa · Encontrad al impostor</div>
     </div>
     <div class="players-strip" id="players-strip"></div>
     <div class="deco-line"><span>votar jugador</span></div>
@@ -293,5 +292,15 @@
 </div>
 
 <script src="script.js"></script>
+
+<!-- Pop-up de Inicio de Turno -->
+<div id="starter-popup" class="starter-overlay">
+  <div class="starter-content">
+    <div class="starter-label">PROTOCOLO DE INICIO</div>
+    <div class="starter-name" id="starter-name-popup">NOMBRE</div>
+    <div class="starter-sub">COMIENZA LA DISCUSIÓN</div>
+    <div class="starter-timer-bar"></div>
+  </div>
+</div>
 </body>
 </html>
