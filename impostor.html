@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>EL IMPOSTOR</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════ SCREEN 0: CARGA INICIAL -->
+<div class="screen active" id="s-loading">
+  <div class="loading-overlay">
+    <div class="loading-glitch-wrap">
+      <div class="loading-title" id="loading-title-el">EL<br><span>IMPOS</span><br>TOR</div>
+      <div class="loading-title loading-title--ghost" aria-hidden="true">EL<br><span>IMPOS</span><br>TOR</div>
+    </div>
+    <div class="loading-bar-wrap">
+      <div class="loading-bar" id="loading-bar"></div>
+    </div>
+    <div class="loading-status" id="loading-status">INICIALIZANDO SISTEMA</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 1: INICIO -->
+<div class="screen" id="s-intro">
+  <div class="container text-center">
+    <div class="game-title">EL<br><span>IMPOS</span><br>TOR</div>
+    <p class="game-sub">¿Quién miente entre vosotros?</p>
+    <div class="deco-line mt-32"><span>partida nueva</span></div>
+    <button class="btn btn-primary" onclick="goTo('s-players')">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><polygon points="2,1 13,7 2,13"/></svg>
+      JUGAR
+    </button>
+    <p class="text-mono text-gray mt-16" style="font-size:10px">Powered por IA · Palabras dinámicas sin repetición</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 2: JUGADORES -->
+<div class="screen" id="s-players">
+  <div class="container">
+    <button class="btn-ghost" onclick="goTo('s-intro')">← ATRÁS</button>
+    <div class="mt-16">
+      <div class="section-title">JUGADORES</div>
+      <div class="section-sub">Añade los nombres de cada jugador</div>
+    </div>
+    <div class="card">
+      <div class="stepper-row">
+        <div>
+          <div class="stepper-label">Número de jugadores</div>
+          <div class="stepper-hint">Mínimo 3 jugadores</div>
+        </div>
+        <div class="stepper">
+          <button onclick="changePlayerCount(-1)">−</button>
+          <div class="val" id="player-count-val">4</div>
+          <button onclick="changePlayerCount(1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-16" id="player-names-card">
+      <label class="field-label">Nombres</label>
+      <div id="player-inputs"></div>
+    </div>
+    <button class="btn btn-primary" onclick="goToConfig()">SIGUIENTE →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 3: CONFIGURACIÓN -->
+<div class="screen" id="s-config">
+  <div class="container">
+    <button class="btn-ghost" onclick="goTo('s-players')">← ATRÁS</button>
+    <div class="mt-16">
+      <div class="section-title">CONFIGURACIÓN</div>
+      <div class="section-sub">Ajusta las reglas del juego</div>
+    </div>
+    <div class="card">
+      <label class="field-label">Impostores</label>
+      <div class="stepper-row" style="margin-bottom:0">
+        <div>
+          <div class="stepper-label">¿Cuántos impostores?</div>
+          <div class="stepper-hint" id="impostor-hint">1 impostor por cada 4 jugadores</div>
+        </div>
+        <div class="stepper">
+          <button onclick="changeImpostors(-1)">−</button>
+          <div class="val" id="impostor-count-val">1</div>
+          <button onclick="changeImpostors(1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-16">
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-title">Pistas para impostores</div>
+          <div class="toggle-desc">Los impostores reciben una pista sobre la palabra</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="hint-toggle">
+          <div class="toggle-track"></div>
+        </label>
+      </div>
+    </div>
+    <div class="card mt-16">
+      <label class="field-label">Rondas</label>
+      <div class="stepper-row" style="margin-bottom:0">
+        <div>
+          <div class="stepper-label">Número de rondas</div>
+          <div class="stepper-hint">Cada ronda tiene discusión + votación</div>
+        </div>
+        <div class="stepper">
+          <button onclick="changeRounds(-1)">−</button>
+          <div class="val" id="rounds-val">3</div>
+          <button onclick="changeRounds(1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-16">
+      <label class="field-label">Duración de cada ronda</label>
+      <div class="stepper-row" style="margin-bottom:0">
+        <div>
+          <div class="stepper-label">Tiempo en minutos</div>
+          <div class="stepper-hint">El timer empieza al iniciar la ronda</div>
+        </div>
+        <div class="stepper">
+          <button onclick="changeDuration(-1)">−</button>
+          <div class="val" id="duration-val">3</div>
+          <button onclick="changeDuration(1)">+</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="goTo('s-theme')">SIGUIENTE →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 4: TEMA -->
+<div class="screen" id="s-theme">
+  <div class="container wide">
+    <button class="btn-ghost" onclick="goTo('s-config')">← ATRÁS</button>
+    <div class="mt-16">
+      <div class="section-title">TEMA</div>
+      <div class="section-sub">¿Sobre qué irán las palabras?</div>
+    </div>
+    <div class="theme-grid" id="theme-grid"></div>
+    <button class="btn btn-primary mt-32" onclick="startWordReveal()">¡JUGAR!</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 4b: PASA EL TELÉFONO -->
+<div class="screen" id="s-pass">
+  <div class="container text-center">
+    <div class="pass-instruction">SIGUIENTE JUGADOR</div>
+    <div class="pass-player-name" id="pass-name">—</div>
+    <div class="pass-divider"></div>
+    <div class="pass-count" id="pass-countdown">3</div>
+    <div class="pass-label">Pasa el teléfono y espera</div>
+    <div class="pass-progress-wrap">
+      <div class="pass-progress-bar" id="pass-progress-bar"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 5: MOSTRAR PALABRAS -->
+<div class="screen" id="s-reveal">
+  <div class="container">
+    <div class="progress-dots" id="reveal-dots"></div>
+    <div class="word-cover" id="reveal-card">
+      <div class="word-player-name" id="reveal-player-sub">JUGADOR</div>
+      <div class="word-player-label" id="reveal-player-name">—</div>
+      <hr class="sep sep-red" style="margin:20px 0">
+      <div class="word-big hidden-word" id="reveal-word">?????</div>
+      <div id="reveal-tag"></div>
+      <div id="reveal-hint-box" style="display:none"></div>
+    </div>
+    <!-- Busca esta línea y déjala así (sin el onclick) -->
+<button class="reveal-btn" id="reveal-btn">
+  👁 MANTÉN PARA VER TU PALABRA
+</button>
+    <div id="reveal-nav" style="display:none;margin-top:16px">
+      <button class="btn btn-primary" onclick="nextReveal()" style="margin-top:0">SIGUIENTE JUGADOR →</button>
+    </div>
+    <div id="reveal-start" style="display:none;margin-top:16px">
+      <hr class="sep">
+      <button class="btn btn-primary" id="start-game-btn" onclick="startGame()" style="margin-top:0;background:#7a0000;font-size:18px">
+        ¡QUE COMIENCE EL JUEGO!
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 6: JUEGO EN CURSO -->
+<div class="screen" id="s-game">
+  <div class="container">
+    <div class="round-header">
+      <div>
+        <div class="round-tag">RONDA EN CURSO</div>
+        <div class="round-num" id="game-round-display">01</div>
+      </div>
+      <div style="text-align:right">
+        <div class="timer-big" id="game-timer">03:00</div>
+        <div class="timer-label">TIEMPO RESTANTE</div>
+      </div>
+    </div>
+    <div class="status-bar">
+      <div class="status-dot"></div>
+      <div class="status-text">Discusión activa · Encontrad al impostor</div>
+    </div>
+    <div class="players-strip" id="players-strip"></div>
+    <div class="deco-line"><span>votar jugador</span></div>
+    <p style="font-family:var(--font-m);font-size:10px;letter-spacing:3px;color:var(--gray);margin-bottom:12px;text-transform:uppercase">
+      Pulsa en un jugador para votar que es el impostor
+    </p>
+    <div class="vote-grid" id="vote-grid"></div>
+    <div class="mt-24 flex-center" style="flex-wrap:wrap;gap:12px">
+      <button class="btn-outline" onclick="endRoundEarly()">TERMINAR RONDA</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 6b: CONFIRMAR VOTO -->
+<div class="screen" id="s-vote-confirm">
+  <div class="container text-center">
+    <div class="text-mono text-gray mt-32" style="letter-spacing:6px">CONFIRMAR VOTO</div>
+    <div class="vote-confirm-name mt-16" id="confirm-name">—</div>
+    <div class="text-mono text-gray mt-8" style="font-size:11px">¿Estáis seguros de que queréis eliminar a este jugador?</div>
+    <hr class="sep mt-32">
+    <div class="confirm-btns">
+      <button class="btn btn-primary" id="confirm-yes-btn" style="background:var(--red);margin-top:0" onclick="confirmVote()">
+        ✓ CONFIRMAR ELIMINACIÓN
+      </button>
+      <button class="btn btn-outline mt-16" onclick="cancelVote()">← CANCELAR VOTO</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 7: RESULTADO VOTO -->
+<div class="screen" id="s-vote-result">
+  <div class="container text-center">
+    <div class="text-mono text-gray mt-32">EL JUGADOR ELIMINADO ES</div>
+    <div class="result-name mt-16" id="voted-name" style="font-size:18px;letter-spacing:6px;color:var(--white)">—</div>
+    <div class="result-verdict" id="voted-verdict">—</div>
+    <div id="voted-role-desc" class="text-mono text-gray" style="margin-top:8px"></div>
+    <hr class="sep mt-32">
+    <button class="btn btn-primary" onclick="afterVote()">CONTINUAR</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 8: FIN DE RONDA -->
+<div class="screen" id="s-round-end">
+  <div class="container">
+    <div class="round-end-title text-center">FIN DE<br>RONDA</div>
+    <div class="card mt-24">
+      <ul class="round-info-list">
+        <li><span>Ronda completada</span><span class="val" id="re-round">—</span></li>
+        <li><span>Jugadores vivos</span><span class="val" id="re-alive">—</span></li>
+        <li><span>Impostores restantes</span><span class="val" id="re-impostors">—</span></li>
+      </ul>
+    </div>
+    <button class="btn btn-primary mt-24" id="re-next-btn" onclick="nextRound()">SIGUIENTE RONDA</button>
+    <button class="btn-ghost mt-16" style="width:100%;text-align:center" onclick="revealImpostors()">VER IMPOSTORES</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ SCREEN 9: FIN DEL JUEGO -->
+<div class="screen" id="s-final">
+  <div class="container">
+    <div class="final-screen-content">
+      <div class="text-mono text-gray" style="letter-spacing:6px">GAME OVER</div>
+      <div class="result-verdict mt-24" id="final-verdict" style="font-size:clamp(40px,10vw,80px)">—</div>
+      <hr class="sep mt-16">
+      <div class="impostor-reveal">Los impostores eran</div>
+      <div class="impostor-names" id="final-impostors">—</div>
+    </div>
+    <div class="card mt-24">
+      <ul class="round-info-list">
+        <li><span>Rondas jugadas</span><span class="val" id="final-rounds">—</span></li>
+        <li><span>Jugadores eliminados</span><span class="val" id="final-eliminated">—</span></li>
+        <li><span>Impostores cazados</span><span class="val" id="final-caught">—</span></li>
+      </ul>
+    </div>
+    <div class="final-actions mt-24">
+      <button class="btn btn-primary" style="background:var(--red-dim);border:1px solid var(--red)" onclick="continueGame()">
+        ↺ SEGUIR JUGANDO
+      </button>
+      <p class="text-mono text-gray mt-8" style="font-size:9px;text-align:center;letter-spacing:3px">
+        Mismos jugadores · Elige nuevo tema
+      </p>
+      <button class="btn btn-outline mt-16" onclick="resetGame()">NUEVA PARTIDA</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
