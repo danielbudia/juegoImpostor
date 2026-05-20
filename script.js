@@ -191,17 +191,20 @@ function selectTheme(id) {
 async function generateWord() {
   if (!G.theme) { alert('Selecciona un tema primero'); return false; }
 
+  // Buscamos la palabra en el sistema
   G.hintEnabled = document.getElementById('hint-toggle').checked;
-  const themeLabel = THEMES.find(t => t.id === G.theme)?.label || G.theme;
-  const themeDesc = THEME_PROMPTS[G.theme] || themeLabel;
-  
+  const themeDesc = THEME_PROMPTS[G.theme] || G.theme;
   const used = G.usedWords[G.theme] || [];
   const listToAvoid = used.slice(-50).join(', ');
 
-  const API_KEY = 'oE1UFMr66HFM5mZcafuYAep3vJv4NpN1'; // <-- Asegúrate de que tu key siga aquí
-  const PROXY = 'https://corsproxy.io/?';
+  // CAMBIO AQUÍ: Intenta leer de una variable o usa la clave hardcodeada 
+  // (Sabiendo que si la subes a GitHub se borrará)
+  const API_KEY = 'TU_NUEVA_CLAVE_AQUI'; 
   const ENDPOINT = 'https://api.mistral.ai/v1/chat/completions';
-
+  
+  // Usaremos un proxy que suele funcionar mejor con Mistral
+  const PROXY = 'https://api.allorigins.win/raw?url=';
+  
   // --- INSTRUCCIONES AVANZADAS PARA MISTRAL ---
   const prompt = `INSTRUCCIÓN DE SISTEMA:
 Eres el generador de palabras del juego "El Impostor". 
