@@ -692,6 +692,15 @@ function startRound() {
   updateTimerDisplay();
   buildPlayersStrip();
   buildVoteGrid();
+  
+  // --- NUEVA LÓGICA: ELEGIR QUIÉN EMPIEZA ---
+  if (G.alive.length > 0) {
+    const randomIndex = Math.floor(Math.random() * G.alive.length);
+    const starterName = G.alive[randomIndex];
+    document.getElementById('starter-name').textContent = starterName.toUpperCase();
+  }
+  // -----------------------------------------
+
   clearInterval(G.timerInterval);
   G.timerInterval = setInterval(tickTimer, 1000);
 }
