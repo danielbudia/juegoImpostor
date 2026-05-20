@@ -192,75 +192,41 @@ function selectTheme(id) {
 async function generateWord() {
   if (!G.theme) { alert('Selecciona un tema primero'); return false; }
 
-  // Buscamos la palabra en el sistema
-  G.hintEnabled = document.getElementById('hint-toggle').checked;
   const themeDesc = THEME_PROMPTS[G.theme] || G.theme;
   const used = G.usedWords[G.theme] || [];
   const listToAvoid = used.slice(-50).join(', ');
 
-  // CAMBIO AQUÍ: Intenta leer de una variable o usa la clave hardcodeada 
-  // (Sabiendo que si la subes a GitHub se borrará)
-  const API_KEY = 'oE1UFMr66HFM5mZcafuYAep3vJv4NpN1'; 
-  const ENDPOINT = 'https://api.mistral.ai/v1/chat/completions';
-  
-  // Usaremos un proxy que suele funcionar mejor con Mistral
-  const PROXY = 'https://api.allorigins.win/raw?url=';
-  // --- INSTRUCCIONES AVANZADAS PARA MISTRAL ---
-  const prompt = `INSTRUCCIÓN DE SISTEMA:
-Eres el generador de palabras del juego "El Impostor". 
-Tu objetivo es dar una palabra que sea DIFÍCIL de adivinar pero relacionada con el tema.
-
-TEMA: ${themeDesc}.
-LISTA NEGRA (Prohibido usar estas): [${listToAvoid}].
-
-REGLAS PARA LA PALABRA:
-1. Selecciona una palabra TOTALMENTE ALEATORIA dentro del tema. 
-2. Evita los ejemplos más típicos (si es cine, no uses 'Titanic'). Busca variedad.
-3. Debe estar en español y en MAYÚSCULAS.
-
-REGLAS PARA LA PISTA (HINT):
-1. La pista DEBE SER EXACTAMENTE UNA SOLA PALABRA.
-2. La pista debe ser una categoría superior o un concepto relacionado de forma lejana.
-3. No puede ser parte de la palabra secreta.
-
-Responde ÚNICAMENTE este JSON: {"word": "PALABRA", "hint": "PISTA"}`;
+  const promptInput = `TEMA: ${themeDesc}. 
+  LISTA NEGRA: [${listToAvoid}].
+  REGLAS: Palabra difícil en español y MAYÚSCULAS. Pista (hint) de una sola palabra relacionada.
+  RESPUESTA: JSON {"word": "...", "hint": "..."}`;
 
   try {
-    const response = await fetch(PROXY + ENDPOINT, {
+    // LLAMAMOS A NUESTRA PROPIA API EN VERCEL
+    const response = await fetch('/api/generate', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: "open-mistral-7b",
-        messages: [
-          { role: "system", content: "Solo respondes en formato JSON puro." },
-          { role: "user", content: prompt }
-        ],
-        temperature: 0.9, // Aumentamos la temperatura para que sea más aleatorio
-        response_format: { type: "json_object" }
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: promptInput })
     });
 
-    if (!response.ok) throw new Error("Error en API Mistral");
+    if (!response.ok) throw new Error("Fallo en la comunicación con la API");
 
     const data = await response.json();
+    
+    // Mistral devuelve la respuesta en choices[0].message.content
     const content = JSON.parse(data.choices[0].message.content);
 
-    // Limpieza de seguridad para la palabra y la pista
     G.word = content.word.toUpperCase().trim();
-    // Forzamos que la pista sea solo una palabra por si la IA se equivoca
     G.hint = content.hint.trim().split(/\s+/)[0].toLowerCase(); 
 
     if (!G.usedWords[G.theme]) G.usedWords[G.theme] = [];
     G.usedWords[G.theme].push(G.word);
 
-    console.log("🎲 PALABRA ALEATORIA:", G.word, "| PISTA ÚNICA:", G.hint);
+    console.log("🎲 Palabra de Mistral recibida:", G.word);
     return true;
 
   } catch (e) {
-    console.warn("🔌 Error, modo offline:", e.message);
+    console.warn("🔌 Error en IA, tirando de respaldo:", e.message);
     return useFallback(); 
   }
 }
