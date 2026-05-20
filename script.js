@@ -196,18 +196,19 @@ async function generateWord() {
   const used = G.usedWords[G.theme] || [];
   const listToAvoid = used.slice(-50).join(', ');
 
-  // 1. TU CLAVE (Si el repo es público, esta clave morirá al subirla a GitHub)
-  const API_KEY = 'oE1UFMr66HFM5mZcafuYAep3vJv4NpN1'; 
+  // 1. TU CLAVE (Ponla aquí entre las comillas)
+  const API_KEY = "oE1UFMr66HFM5mZcafuYAep3vJv4NpN1"; 
   
-  // 2. EL PROXY (Esto es lo que evita el error de "bloqueo")
-  const PROXY = 'https://api.allorigins.win/raw?url=';
-  const URL = 'https://api.mistral.ai/v1/chat/completions';
+  // 2. EL PROXY (Esto es obligatorio para que funcione desde el navegador)
+  const PROXY_URL = "https://corsproxy.io/?";
+  const MISTRAL_URL = "https://api.mistral.ai/v1/chat/completions";
 
-  const prompt = `Responde SOLO un objeto JSON: {"word": "PALABRA", "hint": "PISTA"}. 
-  Tema: ${themeDesc}. No uses: ${listToAvoid}. Palabra en español, mayúsculas. Pista: una sola palabra.`;
+  const promptInput = `Responde con un JSON puro: {"word": "PALABRA", "hint": "PISTA"}. 
+  Tema: ${themeDesc}. No uses: ${listToAvoid}. Palabra en español, mayúsculas.`;
 
   try {
-    const response = await fetch(PROXY + encodeURIComponent(URL), {
+    // Llamamos a través del proxy
+    const response = await fetch(PROXY_URL + encodeURIComponent(MISTRAL_URL), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -215,27 +216,28 @@ async function generateWord() {
       },
       body: JSON.stringify({
         model: "open-mistral-7b",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.7
+        messages: [{ role: "user", content: promptInput }],
+        temperature: 0.8
       })
     });
 
-    if (!response.ok) throw new Error("Fallo en Mistral");
+    if (!response.ok) throw new Error("Mistral rechazó la clave o el proxy falló");
 
     const data = await response.json();
-    // Mistral a veces devuelve el JSON dentro de un string de texto
-    const content = JSON.parse(data.choices[0].message.content.trim());
+    
+    // Mistral a veces devuelve el JSON con texto extra, intentamos limpiarlo
+    let contentRaw = data.choices[0].message.content;
+    const content = JSON.parse(contentRaw.substring(contentRaw.indexOf('{'), contentRaw.lastIndexOf('}') + 1));
 
     G.word = content.word.toUpperCase().trim();
     G.hint = content.hint.trim().split(/\s+/)[0].toLowerCase(); 
 
-    if (!G.usedWords[G.theme]) G.usedWords[G.theme] = [];
-    G.usedWords[G.theme].push(G.word);
-
+    console.log("IA activada correctamente:", G.word);
     return true;
 
   } catch (e) {
-    console.warn("API falló o clave anulada, usando respaldo local.");
+    console.error("Fallo directo de IA:", e.message);
+    // Si falla, tira del respaldo para que el juego no se rompa
     return useFallback(); 
   }
 }
