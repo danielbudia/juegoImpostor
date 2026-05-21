@@ -269,7 +269,6 @@ async function fetchFromGroq(themeDesc, used) {
 function useFallback() {
   const fallbacks = {
     actores: [
-  // ORIGINALES MEJORADOS
   {w: 'BRAD PITT', h: 'Esculpido'}, {w: 'SCARLETT JOHANSSON', h: 'Rusa'}, {w: 'TOM CRUISE', h: 'Arnés'}, 
   {w: 'WILL SMITH', h: 'Bofetada'}, {w: 'LEONARDO DICAPRIO', h: 'Tótem'}, {w: 'MERYL STREEP', h: 'Acento'}, 
   {w: 'JOHNNY DEPP', h: 'Maquillaje'}, {w: 'ROBERT DE NIRO', h: 'Gesto'}, {w: 'PENÉLOPE CRUZ', h: 'Alcobendas'}, 
@@ -314,7 +313,6 @@ function useFallback() {
 ]
     ,
     futbolistas: [
-  // ORIGINALES MEJORADOS (Pistas más difíciles)
   {w: 'LEO MESSI', h: 'Rosario'}, {w: 'CRISTIANO RONALDO', h: 'Disciplina'}, {w: 'MARADONA', h: 'Cebollita'}, 
   {w: 'MBAPPÉ', h: 'Bondy'}, {w: 'PELE', h: 'Santos'}, {w: 'ZIDANE', h: 'Marsella'}, 
   {w: 'RONALDINHO', h: 'Dientes'}, {w: 'NEYMAR', h: 'Mohicano'}, {w: 'HAALAND', h: 'Androide'}, 
@@ -338,8 +336,6 @@ function useFallback() {
   {w: 'ASENSIO', h: 'Mallorca'}, {w: 'ISCO', h: 'Magia'}, {w: 'BALE', h: 'Hoyo'}, 
   {w: 'GUTI', h: 'Tacón'}, {w: 'VICENTE', h: 'Puñal'}, {w: 'JOAQUÍN', h: 'Finta'}, 
   {w: 'NAVAS', h: 'Duende'}, {w: 'TORRES', h: 'Atlético'}, {w: 'VILLA', h: 'Siete'},
-
-  // 50 NUEVOS AÑADIDOS
   {w: 'JOHAN CRUYFF', h: 'Naranja'}, {w: 'FRANZ BECKENBAUER', h: 'Káiser'}, {w: 'LEV YASHIN', h: 'Araña'}, 
   {w: 'PAOLO MALDINI', h: 'Lealtad'}, {w: 'ROBERTO CARLOS', h: 'Muslo'}, {w: 'THIERRY HENRY', h: 'Zancada'}, 
   {w: 'KAKÁ', h: 'Esmóquin'}, {w: 'MANUEL NEUER', h: 'Líbero'}, {w: 'SERGIO BUSQUETS', h: 'Ancla'}, 
@@ -359,7 +355,6 @@ function useFallback() {
   {w: 'CHICHARITO', h: 'Olfato'}, {w: 'JAMES RODRIGUEZ', h: 'Zurdazo'}
 ],
 futbolistas: [
-  // ORIGINALES MEJORADOS (Pistas más difíciles)
   {w: 'LEO MESSI', h: 'Rosario'}, {w: 'CRISTIANO RONALDO', h: 'Disciplina'}, {w: 'MARADONA', h: 'Cebollita'}, 
   {w: 'MBAPPÉ', h: 'Bondy'}, {w: 'PELE', h: 'Santos'}, {w: 'ZIDANE', h: 'Marsella'}, 
   {w: 'RONALDINHO', h: 'Dientes'}, {w: 'NEYMAR', h: 'Mohicano'}, {w: 'HAALAND', h: 'Androide'}, 
@@ -402,7 +397,6 @@ futbolistas: [
   {w: 'CHICHARITO', h: 'Olfato'}, {w: 'JAMES RODRIGUEZ', h: 'Zurdazo'}
 ],
     animales: [
-  // ORIGINALES MEJORADOS (Más sutiles)
   {w: 'TIBURÓN', h: 'Cartílago'}, {w: 'CAMALEÓN', h: 'Mimetismo'}, {w: 'ÁGUILA', h: 'Rapaz'}, 
   {w: 'ORNITORRINCO', h: 'Anómalo'}, {w: 'ELEFANTE', h: 'Memoria'}, {w: 'JIRAFA', h: 'Acacia'}, 
   {w: 'CANGURO', h: 'Marsupial'}, {w: 'KOALA', h: 'Somnoliento'}, {w: 'LEÓN', h: 'Orgullo'}, 
@@ -426,8 +420,6 @@ futbolistas: [
   {w: 'PELÍCANO', h: 'Pesca'}, {w: 'FOCA', h: 'Hielo'}, {w: 'MORSA', h: 'Marfil'}, 
   {w: 'CALAMAR', h: 'Profundidad'}, {w: 'MANATÍ', h: 'Herbívoro'}, {w: 'ALCE', h: 'Canadá'}, 
   {w: 'RENO', h: 'Laponia'}, {w: 'YAK', h: 'Tíbet'}, {w: 'LEMUR', h: 'Madagascar'},
-
-  // 50 NUEVOS AÑADIDOS
   {w: 'TARÁNTULA', h: 'Peluda'}, {w: 'PIRAÑA', h: 'Mordisco'}, {w: 'LLAMA', h: 'Andes'}, 
   {w: 'PAVO REAL', h: 'Abanico'}, {w: 'MANTIS', h: 'Religiosa'}, {w: 'ORCA', h: 'Asesina'}, 
   {w: 'PUERCOESPÍN', h: 'Espinas'}, {w: 'LUCIÉRNAGA', h: 'Fósforo'}, {w: 'ESCARABAJO', h: 'Egipto'}, 
@@ -447,7 +439,6 @@ futbolistas: [
   {w: 'KAKAPO', h: 'Verde'}, {w: 'MULA', h: 'Híbrido'}
 ],
     palabras_alea: [
-  // ORIGINALES MEJORADOS (Pistas más estratégicas)
   {w: 'INTERNET', h: 'Global'}, {w: 'PIRÁMIDE', h: 'Triángulo'}, {w: 'TELÉFONO', h: 'Dígitos'}, 
   {w: 'ASTRONAUTA', h: 'Cosmos'}, {w: 'DICCIONARIO', h: 'Orden'}, {w: 'BICICLETA', h: 'Equilibrio'}, 
   {w: 'GUITARRA', h: 'Traste'}, {w: 'RELOJ', h: 'Tic-tac'}, {w: 'ESPEJO', h: 'Narciso'}, 
@@ -491,7 +482,6 @@ futbolistas: [
   {w: 'COMETA', h: 'Estela'}, {w: 'UNIVERSO', h: 'Infinito'}
 ],
     series_peliculas: [
-  // ORIGINALES MEJORADOS (Pistas una sola palabra)
   {w: 'TITANIC', h: 'Iceberg'}, {w: 'STAR WARS', h: 'Linaje'}, {w: 'LA CASA DE PAPEL', h: 'Dalí'}, 
   {w: 'BREAKING BAD', h: 'Pureza'}, {w: 'STRANGER THINGS', h: 'Revés'}, {w: 'JUEGO DE TRONOS', h: 'Invierno'}, 
   {w: 'HARRY POTTER', h: 'Cicatriz'}, {w: 'EL SEÑOR DE LOS ANILLOS', h: 'Precioso'}, {w: 'AVENGERS', h: 'Chasquido'}, 
@@ -536,7 +526,6 @@ futbolistas: [
   {w: 'MR. ROBOT', h: 'Hacker'}, {w: 'LA NARANJA MECÁNICA', h: 'Ojo'}
 ],
     comida: [
-  // ORIGINALES MEJORADOS (Pistas una sola palabra)
   {w: 'PIZZA', h: 'Porción'}, {w: 'SUSHI', h: 'Alga'}, {w: 'HAMBURGUESA', h: 'Sésamo'}, 
   {w: 'PAELLA', h: 'Azafrán'}, {w: 'TACOS', h: 'Maíz'}, {w: 'PASTA', h: 'Al-dente'}, 
   {w: 'LASAÑA', h: 'Gratén'}, {w: 'ENSALADA', h: 'Aliño'}, {w: 'SOPA', h: 'Caldo'}, 
@@ -580,7 +569,6 @@ futbolistas: [
   {w: 'MOZZARELLA', h: 'Búfala'}, {w: 'PUDING', h: 'Textura'}
 ],
    objetos: [
-  // ORIGINALES CON PISTAS DIVERTIDAS/SUTILES
   {w: 'MARTILLO', h: 'Golpe'}, {w: 'TIJERAS', h: 'Sastre'}, {w: 'LÁPIZ', h: 'Mina'}, 
   {w: 'RELOJ', h: 'Pulso'}, {w: 'ESPEJO', h: 'Vanidad'}, {w: 'CÁMARA', h: 'Flash'}, 
   {w: 'LINTERNA', h: 'Apagón'}, {w: 'PARAGUAS', h: 'Seco'}, {w: 'ZAPATO', h: 'Pasos'}, 
@@ -624,7 +612,6 @@ futbolistas: [
   {w: 'ESTATUA', h: 'Piedra'}, {w: 'MONEDERO', h: 'Cambio'}
 ],
   marcas: [
-  // ORIGINALES MEJORADOS (Pistas con más "chispa")
   {w: 'APPLE', h: 'Estatus'}, {w: 'SAMSUNG', h: 'Coreano'}, {w: 'GOOGLE', h: 'Respuesta'}, 
   {w: 'MICROSOFT', h: 'Oficina'}, {w: 'AMAZON', h: 'Paquete'}, {w: 'SONY', h: 'Mando'}, 
   {w: 'NINTENDO', h: 'Fontanero'}, {w: 'TESLA', h: 'Voltio'}, {w: 'FERRARI', h: 'Circuito'}, 
