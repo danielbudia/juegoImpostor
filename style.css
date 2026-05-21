@@ -944,3 +944,74 @@ label.field-label {
   from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Estilos para el Pop-up de Inicio */
+.starter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.95);
+  z-index: 9999;
+  display: none; /* Se activa por JS */
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--red-dim);
+}
+
+.starter-content {
+  text-align: center;
+  animation: popIn 0.5s cubic-bezier(.17,.89,.32,1.27);
+}
+
+.starter-label {
+  font-family: var(--font-m);
+  color: var(--red2);
+  letter-spacing: 8px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.starter-name {
+  font-family: var(--font-d);
+  font-size: clamp(60px, 15vw, 120px);
+  color: var(--white);
+  text-shadow: 0 0 30px var(--red-glow);
+  line-height: 1;
+  margin: 20px 0;
+}
+
+.starter-sub {
+  font-family: var(--font-m);
+  color: var(--gray);
+  letter-spacing: 4px;
+  font-size: 12px;
+}
+
+/* Barra de tiempo de 5 segundos */
+.starter-timer-bar {
+  width: 100px;
+  height: 2px;
+  background: var(--red2);
+  margin: 30px auto 0;
+  box-shadow: 0 0 10px var(--red2);
+  animation: shrinkBar 5s linear forwards;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shrinkBar {
+  from { width: 250px; }
+  to { width: 0; }
+}
+
+/* Clase para desaparecer */
+.fade-out-starter {
+  animation: fadeOut 0.8s forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
